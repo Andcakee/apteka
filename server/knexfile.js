@@ -1,7 +1,9 @@
 require('dotenv').config();
 const path = require('path');
 
-module.exports = {
+const env = process.env.NODE_ENV || 'development';
+
+const config = {
   development: {
     client: 'sqlite3',
     connection: {
@@ -29,3 +31,5 @@ module.exports = {
     }
   }
 };
+
+module.exports = config[env] || config.production;
