@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run db-init && node src/index.js",
     "dev": "nodemon src/index.js",
-    "db-init": "knex migrate:latest",
+    "db-init": "NODE_ENV=production knex migrate:latest || true",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
     "lint": "echo \"Add linter command\"",
