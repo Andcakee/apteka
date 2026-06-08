@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой профиль - ФармаПлюс</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Шапка */
+        header {
+            background-color: #2a7fba;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a.active, nav ul li a:hover {
+            background-color: #1a6ea0;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-actions a {
+            color: white;
+            margin-left: 15px;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff5722;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Хлебные крошки */
+        .breadcrumbs {
+            padding: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumbs a {
+            color: #2a7fba;
+            text-decoration: none;
+        }
+
+        .breadcrumbs span {
+            color: #777;
+        }
+
+        /* Основной контент */
+        .profile-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            gap: 20px;
+        }
+
+        .profile-sidebar {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .profile-content {
+            flex: 3;
+            min-width: 300px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .user-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            border: 3px solid #2a7fba;
+        }
+
+        .user-name {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: #2a7fba;
+        }
+
+        .user-email {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .profile-menu {
+            list-style: none;
+        }
+
+        .profile-menu li {
+            margin-bottom: 5px;
+        }
+
+        .profile-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .profile-menu a:hover, .profile-menu a.active {
+            background: #e6f2fa;
+            color: #2a7fba;
+        }
+
+        .profile-menu i {
+            width: 20px;
+            margin-right: 10px;
+            text-align: center;
+        }
+
+        .section-title {
+            color: #2a7fba;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #2a7fba;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #1a6ea0;
+        }
+
+        .btn-outline {
+            background: white;
+            color: #2a7fba;
+            border: 1px solid #2a7fba;
+        }
+
+        .btn-outline:hover {
+            background: #f0f8ff;
+        }
+
+        /* История заказов */
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .orders-table th, .orders-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .orders-table th {
+            background: #f5f9fc;
+            color: #2a7fba;
+        }
+
+        .order-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-completed {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .status-processing {
+            background: #fff8e1;
+            color: #ff8f00;
+        }
+
+        .status-cancelled {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+            }
+
+            nav ul {
+                margin: 15px 0;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .user-actions {
+                margin-top: 15px;
+            }
+
+            .profile-sidebar {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-pills"></i>
+                <span>Аптека «ФармаПлюс»</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="katalog.html">Каталог</a></li>
+                    <!-- <li><a href="#">Акции</a></li> -->
+                    <li><a href="onas.html">О нас</a></li>
+                    <li><a href="kontakti.html">Контакты</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                <a href="korzina.html">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="#" id="logout-btn" style="padding: 8px 15px; background: white; color: #2a7fba; border-radius: 5px; text-decoration: none; font-weight: bold;">Выход</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumbs">
+            <a href="index.html">Главная</a> > <span>Мой профиль</span>
+        </div>
+
+        <div class="profile-container">
+            <div class="profile-sidebar">
+                <div class="user-info">
+                    <div id="avatar-container" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px; border: 3px solid #2a7fba; display: flex; align-items: center; justify-content: center; background: white;">
+                        <i class="fas fa-user" style="font-size: 3rem; color: #2a7fba;"></i>
+                    </div>
+                    <h3 class="user-name">Солдатенко Андрей</h3>
+                    <p class="user-email">andreyvv355@mail.ru</p>
+                </div>
+
+                <ul class="profile-menu">
+                    <li><a href="#" class="active" data-section="personal"><i class="fas fa-user"></i> Личные данные</a></li>
+                    <li><a href="#" data-section="orders"><i class="fas fa-history"></i> История заказов</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Выход</a></li>
+                </ul>
+            </div>
+
+            <div class="profile-content">
+                <!-- Секция: Личные данные -->
+                <div id="personal-section" class="profile-section">
+                    <h2 class="section-title">Личные данные</h2>
+                    
+                    <form id="profile-form">
+                        <div class="form-group">
+                            <label for="fullname">ФИО</label>
+                            <input type="text" id="fullname" class="form-control" value="">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" value="">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Телефон</label>
+                            <input type="tel" id="phone" class="form-control" value="">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="birthdate">Дата рождения</label>
+                            <input type="date" id="birthdate" class="form-control" value="">
+                        </div>
+                        
+                        <button type="submit" class="btn">Сохранить изменения</button>
+                    </form>
+                </div>
+
+                <!-- Секция: История заказов -->
+                <div id="orders-section" class="profile-section" style="display: none;">
+                    <h2 class="section-title">История заказов</h2>
+                    
+                    <div id="orders-container">
+                        <table class="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>№ заказа</th>
+                                    <th>Дата</th>
+                                    <th>Сумма</th>
+                                    <th>Статус</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-tbody">
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 20px;">Загрузка заказов...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <footer>
+        <div class="container">
+            <div class="footer-section">
+                <h3>О нас</h3>
+                <p>Аптека «ФармаПлюс» - это надежный поставщик лекарственных средств с 2010 года.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <p>г. Москва, ул. Лекарственная, 15</p>
+                <p>+7 (495) 123-45-67</p>
+            </div>
+            <div class="footer-section">
+                <h3>Режим работы</h3>
+                <p>Пн-Пт: 8:00-22:00</p>
+                <p>Сб-Вс: 9:00-21:00</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 Аптека «ФармаПлюс». Все права защищены.</p>
+        </div>
+    </footer> -->
+
+    <!-- Модальное окно для деталей заказа -->
+    <div id="order-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; overflow-y: auto;">
+        <div style="background: white; margin: 50px auto; padding: 30px; border-radius: 10px; max-width: 800px; box-shadow: 0 5px 20px rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 id="modal-order-title" style="color: #2a7fba; margin: 0;">Детали заказа</h2>
+                <button onclick="closeOrderModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #999;">✕</button>
+            </div>
+            
+            <div id="modal-order-content" style="border-top: 1px solid #eee; padding-top: 20px;">
+                <!-- Содержимое будет заполнено JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/toast.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Проверка авторизации
+            if (!window.auth.isLoggedIn()) {
+                showToast('Вы должны авторизироваться для доступа к профилю', 'warning', 3000);
+                window.location.href = 'auth.html';
+                return;
+            }
+            
+            // Элементы формы
+            const form = document.querySelector('form');
+            const fullNameInput = document.getElementById('fullname');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const birthdateInput = document.getElementById('birthdate');
+            
+            // Элементы профиля в сайдбаре
+            const userNameElement = document.querySelector('.user-name');
+            const userEmailElement = document.querySelector('.user-email');
+            
+            // Функция для загрузки профиля из API
+            async function fetchProfileFromAPI() {
+              try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                  console.warn('No token found, skipping profile fetch');
+                  return;
+                }
+                
+                const res = await fetch('/api/profile', {
+                  headers: { 'Authorization': 'Bearer ' + token }
+                });
+                
+                if (res.ok) {
+                  const profile = await res.json();
+                  return profile;
+                } else {
+                  console.error('Failed to fetch profile:', res.status);
+                  return null;
+                }
+              } catch (error) {
+                console.error('Error fetching profile:', error);
+                return null;
+              }
+            }
+            
+            // Функция для обновления аватара
+            function updateAvatar() {
+                const avatarContainer = document.getElementById('avatar-container');
+                const isAdmin = window.auth && window.auth.isAdmin && window.auth.isAdmin();
+                
+                if (isAdmin) {
+                    // Для администратора показываем фото
+                    avatarContainer.innerHTML = '<img src="https://sun9-25.userapi.com/impg/W1j4x5qH-M9AdgJg8uRK4bHFeBJFjpLUHOu6lQ/Gcho_5cSysQ.jpg?size=640x640&quality=95&sign=549d89415a53a982e8d3d0f333967349&type=album" alt="Аватар" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">';
+                } else {
+                    // Для обычных пользователей показываем иконку
+                    avatarContainer.innerHTML = '<i class="fas fa-user" style="font-size: 3rem; color: #2a7fba;"></i>';
+                }
+            }
+            
+            // Загрузка профиля при загрузке страницы
+            async function loadProfileData() {
+                // Сначала пытаемся загрузить из API
+                const apiProfile = await fetchProfileFromAPI();
+                
+                if (apiProfile) {
+                    // Используем данные из API
+                    fullNameInput.value = apiProfile.name || '';
+                    emailInput.value = apiProfile.email || '';
+                    phoneInput.value = apiProfile.phone || '';
+                    birthdateInput.value = apiProfile.birthdate || '';
+                    
+                    // Обновляем данные в профиле
+                    const firstName = apiProfile.name ? apiProfile.name.split(' ')[0] : 'Профиль';
+                    userNameElement.textContent = firstName;
+                    userEmailElement.textContent = apiProfile.email || 'email@example.com';
+                    
+                    // Обновляем аватар
+                    updateAvatar();
+                    
+                    // Сохраняем в localStorage для будущего использования
+                    localStorage.setItem('profileData', JSON.stringify({
+                        fullName: apiProfile.name,
+                        email: apiProfile.email,
+                        phone: apiProfile.phone,
+                        birthdate: apiProfile.birthdate
+                    }));
+                } else {
+                    // Fallback: загружаем из localStorage если API не сработал
+                    const savedData = JSON.parse(localStorage.getItem('profileData'));
+                    if (savedData) {
+                        fullNameInput.value = savedData.fullName || '';
+                        emailInput.value = savedData.email || '';
+                        phoneInput.value = savedData.phone || '';
+                        birthdateInput.value = savedData.birthdate || '';
+                        
+                        userNameElement.textContent = savedData.fullName ? savedData.fullName.split(' ')[0] : 'Профиль';
+                        userEmailElement.textContent = savedData.email || 'email@example.com';
+                    }
+                    
+                    // Обновляем аватар
+                    updateAvatar();
+                }
+            }
+            
+            // Обработчик отправки формы
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Получаем данные из формы
+                const profileData = {
+                    fullName: fullNameInput.value,
+                    email: emailInput.value,
+                    phone: phoneInput.value,
+                    birthdate: birthdateInput.value
+                };
+                
+                // Сохраняем в localStorage
+                localStorage.setItem('profileData', JSON.stringify(profileData));
+                
+                // Обновляем данные в профиле (имя и email в сайдбаре)
+                userNameElement.textContent = profileData.fullName.split(' ').slice(0, 2).join(' ');
+                userEmailElement.textContent = profileData.email;
+                
+                showToast('Изменения сохранены', 'success', 3000);
+            });
+            
+            // Функция для загрузки заказов с сервера
+            async function loadOrders() {
+                try {
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                        console.warn('No token found, skipping orders fetch');
+                        return;
+                    }
+                    
+                    const response = await fetch('/api/orders/user/my-orders', {
+                        headers: { 'Authorization': 'Bearer ' + token }
+                    });
+                    
+                    if (response.ok) {
+                        const orders = await response.json();
+                        displayOrders(orders);
+                    } else {
+                        console.error('Failed to fetch orders:', response.status);
+                        displayNoOrders();
+                    }
+                } catch (error) {
+                    console.error('Error fetching orders:', error);
+                    displayNoOrders();
+                }
+            }
+            
+            // Функция для отображения заказов в таблице
+            function displayOrders(orders) {
+                const tbody = document.getElementById('orders-tbody');
+                
+                if (!orders || orders.length === 0) {
+                    displayNoOrders();
+                    return;
+                }
+                
+                tbody.innerHTML = orders.map(order => {
+                    const date = new Date(order.created_at).toLocaleDateString('ru-RU');
+                    const total = order.total || 0;
+                    const status = order.status || 'pending';
+                    
+                    let statusClass = 'status-processing';
+                    let statusText = 'В обработке';
+                    
+                    if (status === 'completed') {
+                        statusClass = 'status-completed';
+                        statusText = 'Выполнен';
+                    } else if (status === 'cancelled') {
+                        statusClass = 'status-cancelled';
+                        statusText = 'Отменен';
+                    }
+                    
+                    return `
+                        <tr>
+                            <td>#${order.id}</td>
+                            <td>${date}</td>
+                            <td>${total} ₽</td>
+                            <td><span class="order-status ${statusClass}">${statusText}</span></td>
+                            <td><button onclick="showOrderDetails(${order.id})" class="btn btn-outline" style="border: none; background: none; color: #2a7fba; cursor: pointer; text-decoration: underline;">Подробнее</button></td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+            
+            // Функция для отображения сообщения об отсутствии заказов
+            function displayNoOrders() {
+                const tbody = document.getElementById('orders-tbody');
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">У вас нет заказов</td></tr>';
+            }
+            
+            // Обработчик переключения вкладок меню
+            document.querySelectorAll('.profile-menu a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const section = this.getAttribute('data-section');
+                    const text = this.textContent.trim();
+                    
+                    // Обработка пункта "Выход"
+                    if (text === 'Выход') {
+                        if (window.auth && window.auth.logout) {
+                            window.auth.logout();
+                        }
+                        return;
+                    }
+                    
+                    // Переключение активного пункта меню
+                    document.querySelectorAll('.profile-menu a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Переключение видимости секций
+                    document.querySelectorAll('.profile-section').forEach(sec => sec.style.display = 'none');
+                    
+                    if (section === 'personal') {
+                        document.getElementById('personal-section').style.display = 'block';
+                    } else if (section === 'orders') {
+                        document.getElementById('orders-section').style.display = 'block';
+                        loadOrders();
+                    }
+                });
+            });
+            
+            // Загружаем сохраненные данные при загрузке страницы
+            loadProfileData();
+        });
+        
+        // Функция для отображения деталей заказа
+        async function showOrderDetails(orderId) {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    showToast('Ошибка авторизации', 'error');
+                    return;
+                }
+                
+                // Загружаем детали заказа с товарами
+                const response = await fetch(`/api/orders/${orderId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!response.ok) {
+                    showToast('Ошибка загрузки деталей заказа', 'error');
+                    return;
+                }
+                
+                const order = await response.json();
+                displayOrderModal(order);
+            } catch (error) {
+                console.error('Error loading order details:', error);
+                showToast('Ошибка загрузки деталей заказа', 'error');
+            }
+        }
+        
+        // Функция для отображения модального окна с деталями заказа
+        function displayOrderModal(order) {
+            const modal = document.getElementById('order-modal');
+            const title = document.getElementById('modal-order-title');
+            const content = document.getElementById('modal-order-content');
+            
+            const date = new Date(order.created_at).toLocaleDateString('ru-RU');
+            const items = order.items || [];
+            
+            let statusText = 'В обработке';
+            if (order.status === 'completed') statusText = 'Выполнен';
+            else if (order.status === 'cancelled') statusText = 'Отменен';
+            else if (order.status === 'processing') statusText = 'В обработке';
+            
+            let itemsHtml = items.map(item => `
+                <div style="display: flex; gap: 15px; margin-bottom: 20px; padding: 15px; border: 1px solid #eee; border-radius: 8px;">
+                    <div style="flex-shrink: 0;">
+                        <img src="${item.image || 'https://via.placeholder.com/100?text=Товар'}" alt="${item.title}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
+                    </div>
+                    <div style="flex: 1;">
+                        <h4 style="margin: 0 0 10px 0; color: #2a7fba;">${item.title}</h4>
+                        <p style="margin: 5px 0; color: #666;">Количество: <strong>${item.quantity}</strong></p>
+                        <p style="margin: 5px 0; color: #666;">Цена за единицу: <strong>${item.price} ₽</strong></p>
+                        <p style="margin: 5px 0; color: #333; font-weight: bold;">Итого: ${item.price * item.quantity} ₽</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            content.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <p style="margin: 5px 0;"><strong>Номер заказа:</strong> #${order.id}</p>
+                    <p style="margin: 5px 0;"><strong>Дата:</strong> ${date}</p>
+                    <p style="margin: 5px 0;"><strong>Статус:</strong> ${statusText}</p>
+                    <p style="margin: 5px 0;"><strong>Общая сумма:</strong> <span style="font-size: 1.2em; color: #2a7fba;">${order.total} ₽</span></p>
+                </div>
+                
+                <div style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
+                    <h3 style="color: #2a7fba; margin-bottom: 15px;">Товары в заказе:</h3>
+                    ${itemsHtml}
+                </div>
+                
+                ${order.notes ? `
+                    <div style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
+                        <h4 style="color: #2a7fba; margin-bottom: 10px;">Примечания:</h4>
+                        <p style="white-space: pre-wrap; color: #666;">${order.notes}</p>
+                    </div>
+                ` : ''}
+            `;
+            
+            modal.style.display = 'block';
+        }
+        
+        // Функция для закрытия модального окна
+        function closeOrderModal() {
+            const modal = document.getElementById('order-modal');
+            modal.style.display = 'none';
+        }
+        
+        // Закрытие модального окна при клике вне его
+        document.getElementById('order-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeOrderModal();
+            }
+        });
+    </script>
+</body>
+</html>

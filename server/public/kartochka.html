@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Нурофен Экспресс Форте - ФармаПлюс</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Шапка */
+        header {
+            background-color: #2a7fba;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a.active, nav ul li a:hover {
+            background-color: #1a6ea0;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-actions a {
+            color: white;
+            margin-left: 15px;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        /* Хлебные крошки */
+        .breadcrumbs {
+            padding: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumbs a {
+            color: #2a7fba;
+            text-decoration: none;
+        }
+
+        .breadcrumbs span {
+            color: #777;
+        }
+
+        /* Основная карточка товара */
+        .product-card {
+            display: flex;
+            flex-wrap: wrap;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .product-gallery {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            border-right: 1px solid #eee;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 300px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+
+        .thumbnails {
+            display: flex;
+            gap: 10px;
+        }
+
+        .thumbnail {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .product-info {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+
+        .product-title {
+            color: #2a7fba;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .product-subtitle {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .price-block {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .current-price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #777;
+            margin-left: 10px;
+        }
+
+        .availability {
+            color: #388e3c;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: #2a7fba;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1a6ea0;
+        }
+
+        .btn-outline {
+            background: white;
+            color: #2a7fba;
+            border: 1px solid #2a7fba;
+        }
+
+        .btn-outline:hover {
+            background: #f0f8ff;
+        }
+
+        .delivery-info {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f0f8ff;
+            border-radius: 5px;
+        }
+
+        .short-description {
+            margin: 20px 0;
+        }
+
+        .short-description h3 {
+            margin-bottom: 10px;
+            color: #2a7fba;
+        }
+
+        .short-description ul {
+            list-style: none;
+        }
+
+        .short-description li {
+            margin-bottom: 8px;
+        }
+
+        .short-description strong {
+            color: #555;
+        }
+
+        .prescription-badge {
+            background: #ffeb3b;
+            color: #ff6f00;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        /* Табы с описанием */
+        .product-details {
+            width: 100%;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            color: #555;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid #2a7fba;
+            font-weight: bold;
+            color: #2a7fba;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .features-list {
+            columns: 2;
+            column-gap: 40px;
+        }
+
+        .features-list li {
+            margin-bottom: 10px;
+            break-inside: avoid;
+        }
+
+        /* Подвал */
+        footer {
+            background-color: #2a7fba;
+            color: white;
+            padding: 40px 0 0;
+            margin-top: 40px;
+        }
+
+        footer .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .footer-section p {
+            margin-bottom: 10px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+            }
+
+            nav ul {
+                margin: 15px 0;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .user-actions {
+                margin-top: 15px;
+            }
+
+            .product-gallery {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            .features-list {
+                columns: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-pills"></i>
+                <span>Аптека «ФармаПлюс»</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="katalog.html" class="active">Каталог</a></li>
+                    <!-- <li><a href="#">Акции</a></li> -->
+                    <li><a href="onas.html">О нас</a></li>
+                    <li><a href="kontakti.html">Контакты</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                <a href="korzina.html">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="admin.html" id="admin-btn" style="display: none; padding: 8px 15px; background: #ff9800; color: white; border-radius: 5px; text-decoration: none; font-weight: bold; margin-right: 10px;">Админ-панель</a>
+                <a href="auth.html" id="auth-btn" style="padding: 8px 15px; background: white; color: #2a7fba; border-radius: 5px; text-decoration: none; font-weight: bold;">Войти</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+            <a href="index.html">Главная</a> > <a href="#">Каталог</a> > <a href="#">Обезболивающие</a> > <span>Нурофен Экспресс Форте</span>
+
+        <div class="product-card" data-product-id="1">
+            <div class="product-gallery">
+                <img src="https://cdn.eapteka.ru/upload/offer_photo/230/733/1_5f962131f489c312558c6999d01e0716.png?t=1744403993&_cvc=1747810727" alt="Нурофен Экспресс Форте" class="main-image">
+                <div class="thumbnails">
+                    <img src="https://dagfarm.ru/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBKzJVQkE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--ec8c6b901cbf042fe6bbd063b52656446408f585/19207.jpg" alt="Миниатюра 1" class="thumbnail">
+                    <img src="https://cdn.stolichki.ru/s/drugs/large/26/2658_3.jpg" alt="Миниатюра 2" class="thumbnail">
+                    <img src="https://cdn.rigla.ru/media/catalog/product/cache/afad95d7734d2fa6d0a8ba78597182b7/1/1/11245-0-e-c-2-0ec2fd7a81297a469a9e8e0492f78f5d6f623016_11245_1.jpeg" alt="Миниатюра 3" class="thumbnail">
+                    <img src="https://static.vitaexpress.ru/public/images/webp_large_w/199976.webp" alt="Миниатюра 4" class="thumbnail">
+                </div>
+            </div>
+            
+            <div class="product-info">
+                <h1 class="product-title">Нурофен Экспресс Форте</h1>
+                <p class="product-subtitle">Капсулы 400 мг, 20 шт.</p>
+                
+                <div class="price-block">
+                    <div class="current-price">589 ₽</div>
+                    <div class="availability">✓ В наличии (15 шт.)</div>
+                </div>
+                
+                <div class="actions">
+                    <button class="btn btn-primary"><i class="fas fa-cart-plus"></i> Добавить в корзину</button>
+                    <button class="btn btn-outline">Купить в 1 клик</button>
+                </div>
+                
+                <div class="delivery-info">
+                    <h3><i class="fas fa-truck"></i> Доставка и самовывоз</h3>
+                    <p>Доставка сегодня от 199 ₽ или бесплатно при заказе от 1500 ₽</p>
+                    <p>Самовывоз из 5 аптек рядом с вами</p>
+                </div>
+                
+                <div class="short-description">
+                    <h3>Краткая информация</h3>
+                    <ul>
+                        <li><strong>Производитель:</strong> Рекитт Бенкизер Хэлскэр</li>
+                        <li><strong>Страна:</strong> Великобритания</li>
+                        <li><strong>Форма выпуска:</strong> Капсулы</li>
+                        <li><strong>Дозировка:</strong> 400 мг</li>
+                        <li><strong>Количество:</strong> 20 капсул</li>
+                        <li><strong>Рецептурный:</strong> <span class="prescription-badge">Без рецепта</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-details">
+            <div class="tabs">
+                <div class="tab active" data-tab="description">Описание</div>
+                <div class="tab" data-tab="instructions">Инструкция</div>
+                <div class="tab" data-tab="features">Характеристики</div>
+                <div class="tab" data-tab="reviews">Отзывы (24)</div>
+            </div>
+            
+            <div class="tab-content active" id="description">
+                <h2>Описание препарата</h2>
+                <p>Нурофен Экспресс Форте - это нестероидный противовоспалительный препарат (НПВП), который применяется для быстрого устранения боли различного происхождения. Действующее вещество - ибупрофен в повышенной дозировке 400 мг.</p>
+                <p>Препарат показан при головной боли, зубной боли, боли в спине, мышечной боли, болезненных менструациях, а также для снижения температуры при простудных заболеваниях и гриппе.</p>
+                <p>Капсулы с жидким содержимым обеспечивают быстрое всасывание и начало действия уже через 15-30 минут после приема.</p>
+            </div>
+            
+            <div class="tab-content" id="instructions">
+                <h2>Инструкция по применению</h2>
+                <h3>Показания к применению</h3>
+                <p>Симптоматическое лечение:</p>
+                <ul>
+                    <li>головной боли, мигрени</li>
+                    <li>зубной боли</li>
+                    <li>боли в спине, мышечной боли</li>
+                    <li>болезненных менструаций</li>
+                    <li>лихорадочных состояний при простудных заболеваниях</li>
+                </ul>
+                
+                <h3>Способ применения и дозы</h3>
+                <p>Взрослые и дети старше 12 лет: по 1 капсуле до 3 раз в сутки. Интервал между приемами - не менее 6 часов.</p>
+                <p>Не превышать максимальную суточную дозу - 1200 мг (3 капсулы).</p>
+                <p>Не применять более 3 дней в качестве жаропонижающего и более 5 дней в качестве обезболивающего средства без консультации врача.</p>
+            </div>
+            
+            <div class="tab-content" id="features">
+                <h2>Характеристики</h2>
+                <ul class="features-list">
+                    <li><strong>Действующее вещество:</strong> Ибупрофен</li>
+                    <li><strong>Концентрация:</strong> 400 мг</li>
+                    <li><strong>Форма выпуска:</strong> Капсулы мягкие желатиновые</li>
+                    <li><strong>Количество в упаковке:</strong> 20 шт.</li>
+                    <li><strong>Фармакотерапевтическая группа:</strong> НПВП</li>
+                    <li><strong>Срок годности:</strong> 3 года</li>
+                    <li><strong>Условия хранения:</strong> При температуре не выше 25°C</li>
+                    <li><strong>Беречь от детей:</strong> Да</li>
+                    <li><strong>Рецептурный препарат:</strong> Нет</li>
+                    <li><strong>АТХ код:</strong> M01AE01</li>
+                    <li><strong>Производитель:</strong> Reckitt Benckiser Healthcare International Ltd.</li>
+                    <li><strong>Страна производства:</strong> Великобритания</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="reviews">
+                <h2>Отзывы</h2>
+                <p>Здесь будут отображаться отзывы покупателей о препарате.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-section">
+                <h3>О нас</h3>
+                <p>Аптека «ФармаПлюс» - это надежный поставщик лекарственных средств с 2010 года.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <p>г. Москва, ул. Лекарственная, 15</p>
+                <p>+7 (495) 123-45-67</p>
+            </div>
+            <div class="footer-section">
+                <h3>Режим работы</h3>
+                <p>Пн-Пт: 8:00-22:00</p>
+                <p>Сб-Вс: 9:00-21:00</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 Аптека «ФармаПлюс». Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Переключение табов
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Удаляем активный класс у всех табов и контента
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Добавляем активный класс к выбранному табу и соответствующему контенту
+                    tab.classList.add('active');
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Смена основного изображения при клике на миниатюру
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.addEventListener('click', () => {
+                    const mainImage = document.querySelector('.main-image');
+                    mainImage.src = thumb.src.replace('100x100', '500x300');
+                });
+            });
+            
+            // Обработчики кнопок: добавить в корзину и купить в 1 клик
+            async function ensureProducts() {
+                if (window.__productsCache) return window.__productsCache;
+                const r = await fetch('/api/products');
+                window.__productsCache = await r.json();
+                return window.__productsCache;
+            }
+
+            document.querySelector('.btn-primary').addEventListener('click', async function() {
+                const card = this.closest('.product-card');
+                if (!window.auth || !window.auth.isLoggedIn || !window.auth.addToCart) {
+                    sessionStorage.setItem('redirectAfterLogin', window.location.pathname.replace(/^\//, '') || 'kartochka.html');
+                    window.auth.showToast('Пожалуйста авторизируйтесь чтобы добавить товар в корзину', 'warning');
+                    setTimeout(() => { window.location.href = 'auth.html'; }, 1500);
+                    return;
+                }
+                if (!window.auth.isLoggedIn()) {
+                    sessionStorage.setItem('redirectAfterLogin', window.location.pathname.replace(/^\//, '') || 'kartochka.html');
+                    window.auth.showToast('Пожалуйста авторизируйтесь чтобы добавить товар в корзину', 'warning');
+                    setTimeout(() => { window.location.href = 'auth.html'; }, 1500);
+                    return;
+                }
+
+                try {
+                    let productId = null;
+                    const titleEl = card && card.querySelector('.product-title');
+                    const productTitle = titleEl ? titleEl.textContent.trim() : '';
+
+                    if (card && card.dataset && card.dataset.productId) {
+                        productId = parseInt(card.dataset.productId, 10);
+                    }
+
+                    if (!productId) {
+                        const products = await ensureProducts();
+                        if (productTitle && products && products.length) {
+                            const pt = productTitle.toLowerCase();
+                            const matched = products.find(p => p.title && (p.title.toLowerCase() === pt || p.title.toLowerCase().includes(pt) || pt.includes(p.title.toLowerCase())));
+                            if (matched) productId = matched.id;
+                        }
+                    }
+
+                    if (!productId) {
+                        window.auth.showToast('Не удалось определить товар для добавления', 'error');
+                        return;
+                    }
+
+                    const addRes = await window.auth.addToCart(productId, 1);
+                    if (addRes && (addRes.id || addRes.cart_item_id || addRes.cart_id)) {
+                        window.auth.showToast('Товар "' + (productTitle || productId) + '" добавлен в корзину', 'success');
+                        // Обновляем счетчик корзины из API
+                        if (window.auth && window.auth.fetchCartCount) {
+                            await window.auth.fetchCartCount();
+                        }
+                    } else {
+                        window.auth.showToast('Ошибка при добавлении в корзину', 'error');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    window.auth.showToast('Ошибка при добавлении в корзину', 'error');
+                }
+            });
+
+            document.querySelector('.btn-outline').addEventListener('click', async function() {
+                const card = this.closest('.product-card');
+                if (!window.auth || !window.auth.isLoggedIn) {
+                    sessionStorage.setItem('redirectAfterLogin', window.location.pathname.replace(/^\//, '') || 'kartochka.html');
+                    window.auth.showToast('Пожалуйста авторизируйтесь чтобы оформить заказ', 'warning');
+                    setTimeout(() => { window.location.href = 'auth.html'; }, 1500);
+                    return;
+                }
+
+                try {
+                    let productId = null;
+                    const titleEl = card && card.querySelector('.product-title');
+                    const productTitle = titleEl ? titleEl.textContent.trim() : '';
+                    if (card && card.dataset && card.dataset.productId) {
+                        productId = parseInt(card.dataset.productId, 10);
+                    }
+                    if (!productId) {
+                        const products = await ensureProducts();
+                        if (productTitle && products && products.length) {
+                            const pt = productTitle.toLowerCase();
+                            const matched = products.find(p => p.title && (p.title.toLowerCase() === pt || p.title.toLowerCase().includes(pt) || pt.includes(p.title.toLowerCase())));
+                            if (matched) productId = matched.id;
+                        }
+                    }
+                    if (productId) {
+                        await window.auth.addToCart(productId, 1);
+                    }
+                    window.auth.showToast('Оформление быстрого заказа', 'info');
+                } catch (err) {
+                    console.error(err);
+                    window.auth.showToast('Ошибка при оформлении заказа', 'error');
+                }
+            });
+            // Инициализируем кнопку авторизации
+            if (window.auth && window.auth.handleAuthBtn) {
+                window.auth.handleAuthBtn();
+            }
+        });
+    </script>
+</body>
+</html>

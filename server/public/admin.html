@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель - ФармаПлюс</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            flex: 1;
+        }
+
+        /* Шапка */
+        header {
+            background-color: #2a7fba;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #1a6ea0;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-actions a {
+            color: white;
+            margin-left: 15px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff5722;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .admin-badge {
+            background: #ff9800;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+
+        /* Админ контейнер */
+        .admin-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .admin-title {
+            color: #2a7fba;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .admin-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            color: #666;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .admin-tab.active {
+            color: #2a7fba;
+            border-bottom-color: #2a7fba;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Форма добавления товара */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #2a7fba;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1a6ea0;
+        }
+
+        .btn-danger {
+            background: #f44336;
+            color: white;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+        }
+
+        /* Таблица товаров */
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .products-table th {
+            background: #f0f0f0;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .products-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .products-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: #4caf50;
+            color: white;
+        }
+
+        .alert-error {
+            background: #f44336;
+            color: white;
+        }
+
+        footer {
+            background-color: #2a7fba;
+            color: white;
+            padding: 40px 0 0;
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
+        footer .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .footer-section p {
+            margin-bottom: 10px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-pills"></i>
+                <span>Аптека «ФармаПлюс»</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="katalog.html">Каталог</a></li>
+                    <li><a href="onas.html">О нас</a></li>
+                    <li><a href="kontakti.html">Контакты</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                <span class="admin-badge">👤 Администратор</span>
+                <a href="korzina.html">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="#" id="logout-btn" style="padding: 8px 15px; background: #ff5722; color: white; border-radius: 5px; text-decoration: none; font-weight: bold;">Выход</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="admin-container">
+            <h1 class="admin-title"><i class="fas fa-cogs"></i> Админ-панель</h1>
+            
+            <div class="admin-tabs">
+                <div class="admin-tab active" data-tab="products">📦 Товары</div>
+                <div class="admin-tab" data-tab="add-product">➕ Добавить товар</div>
+                <div class="admin-tab" data-tab="statistics">📊 Статистика</div>
+            </div>
+
+            <!-- Вкладка: Товары -->
+            <div class="tab-content active" id="products">
+                <h2>Список всех товаров</h2>
+                <div id="success-msg" class="alert alert-success"></div>
+                <div id="error-msg" class="alert alert-error"></div>
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Название</th>
+                            <th>Цена</th>
+                            <th>Остаток</th>
+                            <th>Описание</th>
+                            <th>Действие</th>
+                        </tr>
+                    </thead>
+                    <tbody id="products-list">
+                        <!-- Товары заполняются сюда -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Вкладка: Добавить товар -->
+            <div class="tab-content" id="add-product">
+                <h2>Добавить новый товар</h2>
+                <div id="add-error" class="alert alert-error"></div>
+                <div id="add-success" class="alert alert-success"></div>
+                <form id="add-product-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="product-title">Название товара</label>
+                            <input type="text" id="product-title" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-price">Цена (₽)</label>
+                            <input type="number" id="product-price" name="price" step="0.01" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="product-stock">Количество в наличии</label>
+                            <input type="number" id="product-stock" name="stock" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-image">URL изображения</label>
+                            <input type="text" id="product-image" name="image">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description">Описание</label>
+                        <textarea id="product-description" name="description" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Добавить товар</button>
+                </form>
+            </div>
+
+            <!-- Вкладка: Статистика -->
+            <div class="tab-content" id="statistics">
+                <h2>Статистика</h2>
+                <div id="stats-content">
+                    <p>Всего товаров: <strong id="stat-products">0</strong></p>
+                    <p>Всего пользователей: <strong id="stat-users">0</strong></p>
+                    <p>Общая стоимость товаров: <strong id="stat-total-value">0 ₽</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-section">
+                <h3>О нас</h3>
+                <p>Аптека «ФармаПлюс» - это надежный поставщик лекарственных средств с 2010 года.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <p>г. Москва, ул. Лекарственная, 15</p>
+                <p>+7 (495) 123-45-67</p>
+            </div>
+            <div class="footer-section">
+                <h3>Режим работы</h3>
+                <p>Пн-Пт: 8:00-22:00</p>
+                <p>Сб-Вс: 9:00-21:00</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 Аптека «ФармаПлюс». Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="js/toast.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Проверяем, авторизован ли пользователь и является ли админом
+        function checkAdminAccess() {
+            if (!window.auth.isLoggedIn()) {
+                window.location.href = 'auth.html';
+                return false;
+            }
+            if (!window.auth.isAdmin()) {
+                window.auth.showToast('У вас нет доступа к админ-панели', 'error');
+                setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+                return false;
+            }
+            return true;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!checkAdminAccess()) return;
+
+            // Обработчик логаута
+            document.getElementById('logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.auth.logout();
+            });
+
+            // Переключение табов
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    document.getElementById(tabName).classList.add('active');
+                });
+            });
+
+            // Загрузить товары
+            loadProducts();
+
+            // Обработчик добавления товара
+            document.getElementById('add-product-form').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const title = document.getElementById('product-title').value;
+                const price = parseFloat(document.getElementById('product-price').value);
+                const stock = parseInt(document.getElementById('product-stock').value);
+                const image = document.getElementById('product-image').value;
+                const description = document.getElementById('product-description').value;
+
+                const addError = document.getElementById('add-error');
+                const addSuccess = document.getElementById('add-success');
+                addError.classList.remove('show');
+                addSuccess.classList.remove('show');
+
+                try {
+                    const response = await fetch('/api/products', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        },
+                        body: JSON.stringify({ title, price, stock, image, description })
+                    });
+
+                    if (response.ok) {
+                        showToast('Товар успешно добавлен!', 'success');
+                        document.getElementById('add-product-form').reset();
+                        setTimeout(() => loadProducts(), 1000);
+                    } else {
+                        const data = await response.json();
+                        showToast(data.error || 'Ошибка при добавлении товара', 'error');
+                    }
+                } catch (err) {
+                    showToast('Ошибка подключения: ' + err.message, 'error');
+                }
+            });
+        });
+
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/products');
+                const products = await response.json();
+                const tbody = document.getElementById('products-list');
+                tbody.innerHTML = '';
+
+                products.forEach(product => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${product.id}</td>
+                        <td>${product.title}</td>
+                        <td>${product.price} ₽</td>
+                        <td>${product.stock}</td>
+                        <td>${product.description || '-'}</td>
+                        <td>
+                            <button class="btn btn-danger" onclick="deleteProduct(${product.id})">Удалить</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                // Обновляем статистику
+                updateStatistics(products);
+            } catch (err) {
+                console.error('Ошибка загрузки товаров:', err);
+            }
+        }
+
+        async function deleteProduct(id) {
+            if (!confirm('Вы уверены, что хотите удалить этот товар?')) return;
+
+            try {
+                const response = await fetch(`/api/products/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                });
+
+                if (response.ok) {
+                    window.auth.showToast('Товар удалён', 'success');
+                    loadProducts();
+                } else {
+                    window.auth.showToast('Ошибка при удалении товара', 'error');
+                }
+            } catch (err) {
+                window.auth.showToast('Ошибка подключения', 'error');
+            }
+        }
+
+        function updateStatistics(products) {
+            const totalProducts = products.length;
+            const totalValue = products.reduce((sum, p) => sum + (p.price * p.stock), 0);
+            document.getElementById('stat-products').textContent = totalProducts;
+            document.getElementById('stat-total-value').textContent = totalValue.toFixed(2) + ' ₽';
+        }
+    </script>
+</body>
+</html>

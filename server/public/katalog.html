@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог - Аптека «ФармаПлюс»</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+            padding: 30px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .filters-panel {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 80px;
+        }
+
+        .filter-group {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .filter-group:last-child {
+            border-bottom: none;
+        }
+
+        .filter-group h3 {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2a7fba;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .filter-option input {
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .filter-option label {
+            cursor: pointer;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .filter-option input:checked + label {
+            color: #2a7fba;
+            font-weight: bold;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .products-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+            flex-wrap: wrap;
+        }
+
+        .sort-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid #2a7fba;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-image .placeholder {
+            display: none;
+        }
+
+        .product-info {
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-category {
+            font-size: 11px;
+            color: #2a7fba;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-name {
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 10px;
+            min-height: 40px;
+            line-height: 1.4;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2a7fba;
+        }
+
+        .product-stock {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 3px;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .product-stock.low {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .product-stock.out {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 8px;
+            background-color: #2a7fba;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart:hover:not(:disabled) {
+            background-color: #1a6ea0;
+        }
+
+        .add-to-cart:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .pagination button {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #2a7fba;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .pagination button:hover {
+            background-color: #2a7fba;
+            color: white;
+        }
+
+        .pagination button.active {
+            background-color: #2a7fba;
+            color: white;
+        }
+
+        .no-products {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .no-products i {
+            font-size: 60px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex: 1;
+            max-width: 400px;
+            margin: 0 20px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+
+        .search-box input::placeholder {
+            color: #999;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #2a7fba;
+            box-shadow: 0 0 0 2px rgba(42, 127, 186, 0.1);
+        }
+
+        .user-actions a {
+            text-decoration: none !important;
+            border-bottom: none !important;
+        }
+
+        @media (max-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .main-content {
+                grid-template-columns: 200px 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .filters-panel {
+                display: none;
+            }
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-pills"></i>
+                <span>Аптека «ФармаПлюс»</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="katalog.html" class="active">Каталог</a></li>
+                    <li><a href="onas.html">О нас</a></li>
+                    <li><a href="kontakti.html">Контакты</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                <a href="korzina.html">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="auth.html" id="auth-btn" style="padding: 8px 15px; background: white; color: #2a7fba; border-radius: 5px; text-decoration: none; font-weight: bold;">Войти</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <!-- Фильтры -->
+        <aside class="filters-panel">
+            <div class="filter-group">
+                <h3>Категория</h3>
+                <div class="filter-option">
+                    <input type="checkbox" id="cat_all" checked>
+                    <label for="cat_all">Все категории</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="cat_vitamins">
+                    <label for="cat_vitamins">Витамины</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="cat_painkillers">
+                    <label for="cat_painkillers">Обезболивающие</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="cat_cold">
+                    <label for="cat_cold">От простуды</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="cat_allergy">
+                    <label for="cat_allergy">Аллергия</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="cat_gastro">
+                    <label for="cat_gastro">Гастро</label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h3>Наличие</h3>
+                <div class="filter-option">
+                    <input type="radio" id="stock_all" name="stock" checked>
+                    <label for="stock_all">Все товары</label>
+                </div>
+                <div class="filter-option">
+                    <input type="radio" id="stock_available" name="stock">
+                    <label for="stock_available">В наличии</label>
+                </div>
+                <div class="filter-option">
+                    <input type="radio" id="stock_low" name="stock">
+                    <label for="stock_low">Мало (до 30шт)</label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h3>Цена</h3>
+                <label>От: <input type="number" id="priceMin" placeholder="0" min="0"></label>
+                <label style="display: block; margin-top: 10px;">До: <input type="number" id="priceMax" placeholder="10000" min="0"></label>
+            </div>
+
+            <button style="width: 100%; padding: 12px; background: #2a7fba; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;" onclick="applyFilters()">
+                Применить фильтры
+            </button>
+        </aside>
+
+        <!-- Товары -->
+        <div class="products-section">
+            <div class="products-header">
+                <div class="products-count">
+                    Товаров найдено: <strong id="totalCount">0</strong>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Поиск товара..." />
+                </div>
+                <div class="sort-box">
+                    <label>Сортировка:</label>
+                    <select id="sortSelect" onchange="applySorting()">
+                        <option value="name">По названию</option>
+                        <option value="price_asc">Цена: дешевле</option>
+                        <option value="price_desc">Цена: дороже</option>
+                        <option value="stock">По наличию</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="products-grid" id="productsGrid"></div>
+
+            <div class="pagination" id="pagination"></div>
+
+            <div class="no-products" id="noProducts" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>Товары не найдены</h3>
+                <p>Попробуйте изменить параметры поиска</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-section">
+                <h3>О нас</h3>
+                <p>Аптека «ФармаПлюс» - это надежный поставщик лекарственных средств с 2010 года.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <p>г. Москва, ул. Лекарственная, 15</p>
+                <p>+7 (495) 123-45-67</p>
+            </div>
+            <div class="footer-section">
+                <h3>Режим работы</h3>
+                <p>Пн-Пт: 8:00-22:00</p>
+                <p>Сб-Вс: 9:00-21:00</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 Аптека «ФармаПлюс». Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Модальное окно для карточки товара -->
+    <div id="productModal" class="product-modal">
+        <div class="modal-container">
+            <button class="modal-close" onclick="closeProductCard()">×</button>
+            <div id="modalProductContent"></div>
+        </div>
+    </div>
+
+    <style>
+        /* Стили для модального окна товара */
+        .product-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal-container {
+            background: white;
+            border-radius: 12px;
+            max-width: 1000px;
+            width: 100%;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 32px;
+            cursor: pointer;
+            color: #999;
+            z-index: 100;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: #2a7fba;
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .modal-image {
+            text-align: center;
+        }
+
+        .placeholder-img {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            color: #bbb;
+            overflow: hidden;
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .modal-info h2 {
+            font-size: 28px;
+            color: #333;
+            margin: 0 0 10px 0;
+            line-height: 1.3;
+        }
+
+        .modal-category {
+            font-size: 12px;
+            color: #2a7fba;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .modal-price-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .modal-price {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2a7fba;
+        }
+
+        .modal-stock {
+            font-size: 13px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .modal-stock.low {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .modal-stock.out {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .modal-description {
+            margin-bottom: 20px;
+            font-size: 15px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .modal-description strong {
+            color: #333;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .modal-benefits {
+            margin-bottom: 25px;
+        }
+
+        .modal-benefits strong {
+            display: block;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .benefits-list li {
+            padding: 8px 0;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .benefits-list i {
+            color: #4caf50;
+            font-size: 18px;
+        }
+
+        .modal-details {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            margin-bottom: 15px;
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-item strong {
+            color: #333;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .detail-item p {
+            margin: 0;
+            color: #666;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-add-to-cart {
+            flex: 1;
+            padding: 15px;
+            background-color: #2a7fba;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-add-to-cart:hover:not(:disabled) {
+            background-color: #1a6ea0;
+        }
+
+        .btn-add-to-cart:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Отзывчивый дизайн */
+        @media (max-width: 768px) {
+            .modal-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .modal-container {
+                max-width: 100%;
+                padding: 20px;
+            }
+
+            .modal-info h2 {
+                font-size: 20px;
+            }
+
+            .modal-price {
+                font-size: 24px;
+            }
+
+            .placeholder-img {
+                height: 300px;
+                font-size: 60px;
+            }
+
+            .modal-image img {
+                height: 300px;
+            }
+        }
+    </style>
+
+    <script src="js/products-data.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/catalog.js"></script>
+    <script>
+        // Инициализируем кнопку авторизации
+        if (window.auth && window.auth.handleAuthBtn) {
+            window.auth.handleAuthBtn();
+        }
+        // Обработчик для кнопки выхода
+        if (window.auth && window.auth.handleLogoutBtn) {
+            window.auth.handleLogoutBtn();
+        }
+    </script>
+</body>
+</html>
