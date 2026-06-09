@@ -32,4 +32,4 @@ const config = {
   }
 };
 
-module.exports = config[env] || config.production;
+module.exports = config;

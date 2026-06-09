@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run db-init && node src/index.js",
     "dev": "nodemon src/index.js",
-    "db-init": "NODE_ENV=production knex migrate:latest || true",
+    "db-init": "cross-env NODE_ENV=production knex migrate:latest || true",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
     "lint": "echo \"Add linter command\"",
@@ -25,6 +25,7 @@
     "sqlite3": "^5.1.6"
   },
   "devDependencies": {
+    "cross-env": "^10.1.0",
     "nodemon": "^2.0.22"
   }
 }

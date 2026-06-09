@@ -487,8 +487,9 @@
             z-index: 9999;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 10px;
             overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .modal-container {
@@ -515,19 +516,31 @@
 
         .modal-close {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.05);
             border: none;
             font-size: 32px;
             cursor: pointer;
             color: #999;
             z-index: 100;
-            transition: color 0.3s;
+            transition: color 0.3s, background 0.3s;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            padding: 0;
         }
 
         .modal-close:hover {
             color: #2a7fba;
+            background: rgba(42, 127, 186, 0.1);
+        }
+
+        .modal-close:active {
+            background: rgba(42, 127, 186, 0.2);
         }
 
         .modal-grid {
@@ -684,6 +697,7 @@
         .modal-actions {
             display: flex;
             gap: 10px;
+            margin-top: 20px;
         }
 
         .btn-add-to-cart {
@@ -697,6 +711,10 @@
             font-weight: bold;
             cursor: pointer;
             transition: background-color 0.3s;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-add-to-cart:hover:not(:disabled) {
@@ -710,14 +728,109 @@
 
         /* Отзывчивый дизайн */
         @media (max-width: 768px) {
+            .product-modal {
+                padding: 0;
+                align-items: flex-start;
+            }
+
+            .modal-container {
+                max-width: 100%;
+                width: 100%;
+                height: 100vh;
+                padding: 15px;
+                border-radius: 0;
+                margin: 0;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                display: flex;
+                flex-direction: column;
+            }
+
             .modal-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
 
+            .modal-info h2 {
+                font-size: 22px;
+                margin-top: 10px;
+            }
+
+            .modal-price {
+                font-size: 28px;
+            }
+
+            .placeholder-img {
+                height: 280px;
+                font-size: 60px;
+            }
+
+            .modal-image img {
+                height: 280px;
+            }
+
+            .modal-close {
+                top: 5px;
+                right: 5px;
+                width: 44px;
+                height: 44px;
+                font-size: 28px;
+            }
+
+            .modal-actions {
+                margin-top: auto;
+                padding-top: 15px;
+                gap: 10px;
+            }
+
+            .btn-add-to-cart {
+                min-height: 50px;
+                font-size: 16px;
+                padding: 12px 15px;
+            }
+
+            .modal-category {
+                margin-bottom: 10px;
+            }
+
+            .modal-price-section {
+                gap: 10px;
+                margin-bottom: 15px;
+                padding-bottom: 15px;
+            }
+
+            .modal-description {
+                margin-bottom: 15px;
+                font-size: 14px;
+            }
+
+            .modal-benefits {
+                margin-bottom: 20px;
+            }
+
+            .modal-details {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .detail-item {
+                margin-bottom: 12px;
+            }
+
+            .detail-item strong {
+                font-size: 12px;
+                margin-bottom: 4px;
+            }
+
+            .detail-item p {
+                font-size: 12px;
+            }
+        }
+
+        /* Очень маленькие экраны */
+        @media (max-width: 480px) {
             .modal-container {
-                max-width: 100%;
-                padding: 20px;
+                padding: 12px;
             }
 
             .modal-info h2 {
@@ -725,16 +838,55 @@
             }
 
             .modal-price {
-                font-size: 24px;
+                font-size: 26px;
             }
 
             .placeholder-img {
-                height: 300px;
-                font-size: 60px;
+                height: 240px;
+                font-size: 50px;
             }
 
             .modal-image img {
-                height: 300px;
+                height: 240px;
+            }
+
+            .modal-close {
+                width: 40px;
+                height: 40px;
+                font-size: 24px;
+            }
+
+            .modal-grid {
+                gap: 15px;
+            }
+
+            .modal-price-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .modal-stock {
+                align-self: flex-start;
+            }
+
+            .btn-add-to-cart {
+                min-height: 48px;
+                font-size: 15px;
+            }
+
+            .modal-category {
+                font-size: 11px;
+            }
+
+            .benefits-list li {
+                padding: 6px 0;
+                font-size: 13px;
+                gap: 8px;
+            }
+
+            .benefits-list i {
+                font-size: 16px;
             }
         }
     </style>

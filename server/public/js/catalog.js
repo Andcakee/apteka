@@ -394,7 +394,7 @@ function openProductCard(product) {
                 </div>
                 
                 <div class="modal-actions">
-                    <button class="btn-add-to-cart" data-product-id="${product.id}" data-product-name="${encodeURIComponent(product.name)}" ${product.stock <= 0 ? 'disabled' : ''}>
+                    <button class="btn-add-to-cart" data-product-id="${product.id}" data-product-name="${encodeURIComponent(name)}" ${product.stock <= 0 ? 'disabled' : ''}>
                         ${product.stock > 0 ? 'Добавить в корзину' : 'Нет в наличии'}
                     </button>
                 </div>
@@ -467,6 +467,16 @@ window.addEventListener('click', (e) => {
     const modal = document.getElementById('productModal');
     if (e.target === modal) {
         closeProductCard();
+    }
+});
+
+// Закрытие модального окна при нажатии Escape
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const modal = document.getElementById('productModal');
+        if (modal && modal.style.display === 'flex') {
+            closeProductCard();
+        }
     }
 });
 
